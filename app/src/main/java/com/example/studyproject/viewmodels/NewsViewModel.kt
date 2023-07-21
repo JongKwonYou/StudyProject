@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 /**
  * ViewModel의 경우 ViewModelStoreOwner보다 오래 지속될 수 있으므로 Context 또는 Resources와 같은 수명주기 관련 API 참조를 보유해서는 안된다.
- * test
+ * test1
  */
 
 class NewsViewModel @Inject constructor(
