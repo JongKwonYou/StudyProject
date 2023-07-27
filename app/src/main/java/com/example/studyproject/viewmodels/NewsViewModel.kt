@@ -29,6 +29,7 @@ class NewsViewModel @Inject constructor(
 
         viewModelScope.launch {
 
+
         }
     }
 
@@ -44,7 +45,7 @@ class NewsViewModel @Inject constructor(
 
                 // v2 -> repository단에서 통신을 하고 응답값을 맞춰 전달하기 때문에 결합도 낮아짐
                 newsRepository.getNewsList2(ResponseCallback({
-                    _uiState.emit(CommonUiState.Success(it))
+//                    _uiState.emit(CommonUiState.Success(it))
 
                 }, { code, msg ->
 
