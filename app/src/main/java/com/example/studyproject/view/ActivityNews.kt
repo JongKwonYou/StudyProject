@@ -13,7 +13,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-// git commit message convention check
 @AndroidEntryPoint
 class ActivityNews : AppCompatActivity() {
 
