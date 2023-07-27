@@ -15,7 +15,6 @@ object NetworkModule {
 
     private var baseUrl = "";
 
-    // todo 사용 url이 2개 이상일 경우 처리 ( map 형식 사용 ? )
     private var instance: Retrofit? = null
 
     fun init(url: String) {
@@ -23,7 +22,7 @@ object NetworkModule {
         this.baseUrl = url
     }
 
-//    @Provides
+    // 기본적으로 baseUrl 1개로 사용, 다른 url 사용해야할 경우 새로 객체 생성 후 사용할 것
     private fun getRetrofit(): Retrofit {
         return if (instance != null) {
             instance!!
@@ -37,6 +36,14 @@ object NetworkModule {
                 .build()
             instance!!
         }
+    }
+
+    // base url 를 사용하지 않을 경우 새로운 서비스 객체 생성
+    fun getRetrofit(url : String) : Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(url)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
     }
 
 //    @Provides

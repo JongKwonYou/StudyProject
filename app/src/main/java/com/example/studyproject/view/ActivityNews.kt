@@ -6,10 +6,12 @@ import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.example.studyproject.common.CommonUiState
 import com.example.studyproject.databinding.ActivityNewsBinding
 import com.example.studyproject.viewmodels.NewsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -43,7 +45,17 @@ class ActivityNews : AppCompatActivity() {
              */
             repeatOnLifecycle(Lifecycle.State.STARTED) {
 
-                // start data observing
+                // data observing
+                newsViewModel.uiState.collect{ uiState ->
+                    when (uiState){
+                        is CommonUiState.Success -> {
+                            // todo 받은 데이터 처리
+                        }
+                        is CommonUiState.Error -> {
+                            // todo error 처리
+                        }
+                    }
+                }
 
             }
 

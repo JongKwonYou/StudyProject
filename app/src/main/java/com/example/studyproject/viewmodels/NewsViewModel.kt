@@ -1,15 +1,15 @@
 package com.example.studyproject.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.studyproject.common.CommonUiState
+import com.example.studyproject.common.ResponseCallback
 import com.example.studyproject.model.data.NewsData
 import com.example.studyproject.model.repository.news.NewsRepository
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,6 +18,7 @@ import javax.inject.Inject
  */
 
 class NewsViewModel @Inject constructor(
+    private val scope: CoroutineScope,
     private val newsRepository: NewsRepository
 ) : ViewModel() {
 
@@ -28,26 +29,29 @@ class NewsViewModel @Inject constructor(
 
         viewModelScope.launch {
 
-//            newsRepository.ru
-
-
         }
     }
 
-    companion object {
-//        val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-//            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-//                val application = checkNotNull(extras)
-//            }
-//
-//
-//        }
+    suspend fun getNewsList() {
+        viewModelScope.launch {
+
+                // v1 -> retrofit 통신모듈에 밀접하게 관련되어있어 변경 시 뷰모델이 전부 변경되어야 함
+                newsRepository.getNewsList().onResult({
+
+                }, { code, msg ->
+
+                })
+
+                // v2 -> repository단에서 통신을 하고 응답값을 맞춰 전달하기 때문에 결합도 낮아짐
+                newsRepository.getNewsList2(ResponseCallback({
+                    _uiState.emit(CommonUiState.Success(it))
+
+                }, { code, msg ->
+
+                }))
 
 
-    }
-
-    fun getNewsList() {
-        newsRepository.getNewsList()
+        }
     }
 
 

@@ -1,9 +1,13 @@
 package com.example.studyproject.model.repository.news
 
 import android.util.Log
+import androidx.lifecycle.viewmodel.CreationExtras
+import com.example.studyproject.common.CommonUiState
+import com.example.studyproject.model.data.NewsData
 import com.example.studyproject.utils.network.NetworkModule
 import dagger.Binds
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -13,18 +17,6 @@ import javax.inject.Inject
  */
 class NewsRemoteDataSource @Inject constructor(){
 
-    fun getNewsList(){
-
-        GlobalScope.launch {
-
-            NetworkModule.getApiService(NewsApi::class.java).getNews().onResult({
-                // todo - add callback
-                Log.d("#####","response : ${it.toString()}")
-            }, { code, msg ->
-                Log.d("######","$code - $msg")
-            })
-
-        }
-    }
+    suspend fun getNewsList() = NetworkModule.getApiService(NewsApi::class.java).getNews()
 
 }

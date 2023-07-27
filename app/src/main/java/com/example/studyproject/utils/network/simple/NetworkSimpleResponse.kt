@@ -1,5 +1,7 @@
 package com.example.studyproject.utils.network.simple
 
+import com.example.studyproject.common.ResponseCallback
+
 /**
  * Network 응답 데이터모델
  * @param T : 응답 성공, 받은 데이터 모델
@@ -44,6 +46,13 @@ open class NetworkSimpleResponse<T : Any> {
             onSuccess(t!!)
         }else if(code != null && errorMsg != null){
             onFailed(code!!, errorMsg!!)
+        }
+    }
+    fun onResult(callback : ResponseCallback<T>){
+        if(t != null){
+            callback.onSuccess(t!!)
+        }else if(code != null && errorMsg != null){
+            callback.onFailed(code!!, errorMsg!!)
         }
     }
 }
